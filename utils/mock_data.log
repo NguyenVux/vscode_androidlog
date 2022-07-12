@@ -1,0 +1,16 @@
+--------- beginning of crash
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: FATAL EXCEPTION: main
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: Process: com.VCB, PID: 26738
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.app.Dialog.show()' on a null object reference
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at o.ActionBarOverlayLayout.onTransact(:353)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at o.closeMode.onClick(Unknown Source:2)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.view.View.performClick(View.java:8160)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.view.View.performClickInternal(View.java:8137)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.view.View.access$3700(View.java:888)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.view.View$PerformClick.run(View.java:30236)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.os.Handler.handleCallback(Handler.java:938)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:246)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:8653)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+07-02 11:30:58.533 26738 26738 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:602)
