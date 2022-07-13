@@ -10,11 +10,12 @@ const func = {
 	},
 	"start-server": () =>{
 		console.info('server started');
-		throw new Error("Not Implemented");
+		//throw new Error("Not Implemented");
+		process.exit(0);
 		
 	},
 	'logcat':()=>{
-		throw new Error("Not Implemented");
+		process.exit(1);
 	}
 };
 

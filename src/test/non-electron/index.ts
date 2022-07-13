@@ -20,7 +20,12 @@ export function run(): void {
 
 		try {
 			// Run the mocha test
-			mocha.run();
+			mocha.run((failures)=>{
+				if(failures > 0)
+				{
+					process.exit(1);
+				}
+			});
 		} catch (err) {
 			console.error(err);
 			throw err;
