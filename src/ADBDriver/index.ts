@@ -2,44 +2,47 @@ import { ChildProcessWithoutNullStreams, spawn, SpawnOptionsWithoutStdio } from 
 import { env } from "process";
 import { ReadlineParser } from "../stream-parser/Readline-Parser";
 
+export type ADBSpawnFunc_t = (args:string[],opts?:SpawnOptionsWithoutStdio) => ChildProcessWithoutNullStreams;
 
 
 
-
-export interface IADBDriver{
-	getDevicesList: (opts?:string[])=>Promise<string[]>;
+let adbSpawnFunc:ADBSpawnFunc_t = function(args,opts){
+	return spawn('adb',args,opts);
 }
 
-export type SpawnADBFunction = (args:string[],opts?:SpawnOptionsWithoutStdio) => ChildProcessWithoutNullStreams;
-
-
-export class ADBDriver implements IADBDriver{
-	adbSpawnFunc:SpawnADBFunction;
-	constructor(func?:SpawnADBFunction){
-		this.adbSpawnFunc = func ?? function(args,opts){return spawn('adb',args,opts);};
-		this.startADBDaemon();
+function getDevices(){
+	return new Promise<string[]>((complete,err)=>{
+		const adbProc = adbSpawnFunc(["devices"],{env:env});
+		const result:string[] =[];
+		let value ="";
+		const rlParser = new ReadlineParser();
+		adbProc.stdout.pipe(rlParser);
+		rlParser.on('data',(line)=>{
+			result.push(line.toString());
+		});
+		rlParser.on('close',()=>{
+			result.splice(0,1);
+			complete(result);
+		});
+		adbProc.stderr.on('data',err);
 	}
-	getDevicesList(){
-		return new Promise<string[]>((complete,err)=>{
-			const adbProc = this.adbSpawnFunc(["devices"],{env:env});
-			const result:string[] =[];
-			let value ="";
-			const rlParser = new ReadlineParser();
-			adbProc.stdout.pipe(rlParser);
-			rlParser.on('data',(line)=>{
-				result.push(line.toString());
-			});
-			rlParser.on('close',()=>{
-				result.splice(0,1);
-				complete(result);
-			});
-			adbProc.stderr.on('data',err);
-		}
-		);
-	};
+	);
+};
 
-	private startADBDaemon() {
-		this.adbSpawnFunc(["start-server"],{env:env});
-	}
+function setADBSpawnFunc(fn:ADBSpawnFunc_t)
+{
+	adbSpawnFunc = fn;
+}
+type adb_t = {
+	getDevices: ()=>Promise<string[]>;
+	setADBSpawnFunc:(fn:ADBSpawnFunc_t)=>void;
+}
 
+const adb:adb_t = {
+	getDevices: getDevices,
+	setADBSpawnFunc:setADBSpawnFunc
+}
+
+export {
+	adb
 };

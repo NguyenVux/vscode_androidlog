@@ -1,14 +1,14 @@
 import * as vscode from 'vscode';
 import {} from './stream-parser/delimiter-parser';
-import {ADBDriver} from './ADBDriver';
+import {adb} from './ADBDriver';
 
 
-const adbDriver = new ADBDriver();
+// const adbDriver = new ADBDriver({});
 export function activate(context: vscode.ExtensionContext) {
 	
 	console.log('Congratulations, your extension "logcat-viewer" is now active!');
 	let disposable = vscode.commands.registerCommand('logcat-viewer.helloWorld', () => {
-		adbDriver.getDevicesList().then((list)=>{
+		adb.getDevices().then((list)=>{
 			vscode.window.showInformationMessage(list.toString());
 		});
 	});
