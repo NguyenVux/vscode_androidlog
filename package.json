@@ -19,7 +19,24 @@
 				"command": "logcat-viewer.helloWorld",
 				"title": "Hello World"
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+				  "id": "logcat-viewer",
+				  "title": "Logcat viewer",
+				  "icon": "resources/log.svg"
+				}
+			]
+		},
+		"views": {
+			"logcat-viewer":[
+				{
+					"id": "logcat-filter",
+					"name": "Filter"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run package",
