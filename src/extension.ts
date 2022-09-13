@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import {} from "./stream-parser/delimiter-parser";
 import {adb} from "./ADBDriver";
-
+import { adbDevicesDataProvider } from "./adbDataProvider";
 
 // const adbDriver = new ADBDriver({});
 export function activate(context: vscode.ExtensionContext) {
@@ -14,6 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
+
+	context.subscriptions.push(vscode.window.registerWebviewViewProvider("logcat-filter",new LogcatWebViewProvider()));
 }
 
 // this method is called when your extension is deactivated

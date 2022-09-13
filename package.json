@@ -33,7 +33,8 @@
 			"logcat-viewer":[
 				{
 					"id": "logcat-filter",
-					"name": "Filter"
+					"name": "Filter",
+					"type": "webview"
 				}
 			]
 		}

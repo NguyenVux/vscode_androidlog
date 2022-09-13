@@ -10,22 +10,7 @@
     ],
     "rules": {
         "quotes": ["error", "double"],
-        "@typescript-eslint/naming-convention": 
-        [
-            "warn",
-            {"selector": "classProperty",
-            "format": null,
-            "custom": {
-            "regex": "^m_[A-Z]\\w+",
-            "match": true
-            }},
-            {"selector": "typeAlias",
-            "format": null,
-            "custom": {
-            "regex": "\\w+_t$",
-            "match": true
-            }}
-        ],
+        "@typescript-eslint/naming-convention": 0,
         "@typescript-eslint/semi": "warn",
         "curly": "warn",
         "eqeqeq": "warn",
