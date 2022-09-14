@@ -34,7 +34,7 @@ const adb:adb_t = {
 			});
 			rlParser.on("close",()=>{
 				result.splice(0,1);
-				complete(result);
+				complete(result.map(v => v.split("\t")[0]));
 			});
 			adbProc.stderr.on("data",err);
 		}

@@ -10,8 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:adbDevices",
-		"onStartupFinished"
+		"onView:adbDevices"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -19,10 +18,6 @@
 			{
 				"command": "logcat-viewer.refresh-devices-entry",
 				"title": "Logcat viewer: Refresh devices entry"
-			},
-			{
-				"command": "logcat-viewer.start-adb-server",
-				"title": "Logcat viewer: Start adb server"
 			}
 		],
 		"viewsContainers": {

@@ -10,10 +10,7 @@ export class ADBDevicesDataProvider implements vscode.TreeDataProvider<adbDevice
 	getChildren(element?: adbDevice_t | undefined): vscode.ProviderResult<adbDevice_t[]> {
 		if(!element)
 		{
-			return (async()=>{
-				const devicesList = await adb.getDevices();
-				return devicesList.map(value => value.split("\t")[0]);
-			})();
+			return adb.getDevices();
 		}
 	}
 
@@ -28,8 +25,8 @@ class ADBDevicesTreeItem extends vscode.TreeItem{
 	{
 		super(adbDevice,vscode.TreeItemCollapsibleState.None);
 		this.command = {
-			command:"",
-			arguments:[],
+			command:"logcat.device-entry-action",
+			arguments:[adbDevice],
 			title:""
 		};
 	}
