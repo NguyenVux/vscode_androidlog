@@ -10,14 +10,19 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:logcat-viewer.helloWorld"
+		"onView:adbDevices",
+		"onStartupFinished"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "logcat-viewer.helloWorld",
-				"title": "Hello World"
+				"command": "logcat-viewer.refresh-devices-entry",
+				"title": "Logcat viewer: Refresh devices entry"
+			},
+			{
+				"command": "logcat-viewer.start-adb-server",
+				"title": "Logcat viewer: Start adb server"
 			}
 		],
 		"viewsContainers": {
@@ -32,9 +37,9 @@
 		"views": {
 			"logcat-viewer":[
 				{
-					"id": "logcat-filter",
+					"id": "adbDevices",
 					"name": "Filter",
-					"type": "webview"
+					"type": "tree"
 				}
 			]
 		}

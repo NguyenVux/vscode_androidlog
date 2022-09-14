@@ -1,19 +1,36 @@
 import * as vscode from "vscode";
-import { adb } from "./ADBDriver";
+import { adb, adbDevice_t} from "./ADBDriver";
 
-export class adbDevicesDataProvider implements vscode.TreeDataProvider<string>{
-	onDidChangeTreeData?: vscode.Event<string | void | string[] | null | undefined> | undefined;
-	private _onDidChangeTreeData: vscode.EventEmitter<string[] | undefined | void> = new vscode.EventEmitter<string[] | undefined | void>();
-	getTreeItem(element: string): vscode.TreeItem | Thenable<vscode.TreeItem> {
-		throw new Error("Method not implemented.");
+export class ADBDevicesDataProvider implements vscode.TreeDataProvider<adbDevice_t>{
+	private _onDidChangeTreeData: vscode.EventEmitter<adbDevice_t[] | undefined | void> = new vscode.EventEmitter<adbDevice_t[] | undefined | void>();
+	onDidChangeTreeData: vscode.Event<adbDevice_t | void | adbDevice_t[] | null | undefined> | undefined = this._onDidChangeTreeData.event;
+	getTreeItem(element: adbDevice_t): ADBDevicesTreeItem | Thenable<ADBDevicesTreeItem> {
+		return new ADBDevicesTreeItem(element);
 	}
-	getChildren(element?: string | undefined): vscode.ProviderResult<string[]> {
-		return adb.getDevices();
+	getChildren(element?: adbDevice_t | undefined): vscode.ProviderResult<adbDevice_t[]> {
+		if(!element)
+		{
+			return (async()=>{
+				const devicesList = await adb.getDevices();
+				return devicesList.map(value => value.split("\t")[0]);
+			})();
+		}
 	}
 
-	constructor()
+	refresh(){
+		this._onDidChangeTreeData.fire();
+	}
+
+}
+
+class ADBDevicesTreeItem extends vscode.TreeItem{
+	constructor(adbDevice: adbDevice_t)
 	{
-		
+		super(adbDevice,vscode.TreeItemCollapsibleState.None);
+		this.command = {
+			command:"",
+			arguments:[],
+			title:""
+		};
 	}
-
 }

@@ -1,21 +1,23 @@
 import * as vscode from "vscode";
 import {} from "./stream-parser/delimiter-parser";
 import {adb} from "./ADBDriver";
-import { adbDevicesDataProvider } from "./adbDataProvider";
+import { ADBDevicesDataProvider } from "./adbDataProvider";
 
 // const adbDriver = new ADBDriver({});
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
 	
-	console.log("Congratulations, your extension \"logcat-viewer\" is now active!");
-	let disposable = vscode.commands.registerCommand("logcat-viewer.helloWorld", () => {
-		adb.getDevices().then((list)=>{
-			vscode.window.showInformationMessage(list.toString());
-		});
-	});
+	console.log("\"logcat-viewer\" is now active!");
+	adb.startADBServer();
+	const adbDevicesDataProvider = new ADBDevicesDataProvider();
+	
+	let disposable:vscode.Disposable[] = [
+		vscode.window.registerTreeDataProvider("adbDevices", adbDevicesDataProvider),
+		vscode.commands.registerCommand("logcat-viewer.refresh-devices-entry", () => {
+			adbDevicesDataProvider.refresh();
+		}),
+	];
 
-	context.subscriptions.push(disposable);
-
-	context.subscriptions.push(vscode.window.registerWebviewViewProvider("logcat-filter",new LogcatWebViewProvider()));
+	disposable.forEach((disposable)=>context.subscriptions.push(disposable));
 }
 
 // this method is called when your extension is deactivated

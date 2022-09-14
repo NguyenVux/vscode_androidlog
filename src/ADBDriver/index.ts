@@ -1,5 +1,6 @@
 
 import { ChildProcessWithoutNullStreams, spawn, SpawnOptionsWithoutStdio } from "child_process";
+import { close } from "fs";
 import { env } from "process";
 import { ReadlineParser } from "../stream-parser/Readline-Parser";
 
@@ -17,6 +18,7 @@ let adbSpawnFunc:ADBSpawnFunc_t = function(args,opts){
 type adb_t = {
 	getDevices: ()=>Promise<string[]>;
 	setADBSpawnFunc:(fn:ADBSpawnFunc_t)=>void;
+	startADBServer: ()=>void;
 };
 
 const adb:adb_t = {
@@ -41,9 +43,16 @@ const adb:adb_t = {
 	setADBSpawnFunc:function(fn:ADBSpawnFunc_t)
 	{
 		adbSpawnFunc = fn;
+	},
+	startADBServer: function()
+	{
+		const adbProc = adbSpawnFunc(["start-server"],{env:env});
 	}
 };
 
+
+type adbDevice_t = string;
 export {
-	adb
+	adb,
+	adbDevice_t
 };
